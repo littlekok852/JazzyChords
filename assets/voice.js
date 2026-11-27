@@ -43,6 +43,8 @@
     sus2: [0, 2, 7],
     sus4: [0, 5, 7],
     dim7: [0, 3, 6, 9],
+    dim: [0, 3, 6],
+    m7b5: [0, 3, 6, 10],
     maj7: [0, 7, 11, 16],
     maj9: [0, 11, 14, 16]
   };
@@ -74,12 +76,18 @@
     } else if (rest.indexOf("m9") === 0) {
       quality = "m9";
       rest = rest.slice(2);
+    } else if (rest.indexOf("m7b5") === 0) {
+      quality = "m7b5";
+      rest = rest.slice(4);
     } else if (rest.indexOf("m7") === 0) {
       quality = "m7";
       rest = rest.slice(2);
     } else if (rest.indexOf("dim7") === 0) {
       quality = "dim7";
       rest = rest.slice(4);
+    } else if (rest.indexOf("dim") === 0) {
+      quality = "dim";
+      rest = rest.slice(3);
     } else if (rest.indexOf("sus2") === 0) {
       quality = "sus2";
       rest = rest.slice(4);
@@ -266,6 +274,28 @@
     running.delete(eng);
   }
 
+  function playMelody(eng, notes, options) {
+    var beat = BEAT;
+    var repeats = options && options.repeats != null ? options.repeats : 2;
+    var start = eng.ctx.currentTime + (options && options.leadIn != null ? options.leadIn : 0.05);
+    var owned = [];
+    var total = notes.reduce(function (sum, note) { return sum + note.beats; }, 0) * beat;
+    var rep, cursor, index, note, dur, src;
+    stopProgression(eng);
+    if (running) running.set(eng, owned);
+    for (rep = 0; rep < repeats; rep++) {
+      cursor = start + rep * total;
+      for (index = 0; index < notes.length; index++) {
+        note = notes[index];
+        dur = note.beats * beat;
+        src = eng.playPiano(note.midi, cursor, note.gain || 0.72, Math.max(0.12, dur - RELEASE));
+        if (src) owned.push(src);
+        cursor += dur;
+      }
+    }
+    return { beat: beat, total: total * repeats, bpm: BPM };
+  }
+
   function playProgression(eng, symbols, options) {
     var plan = progressionEvents(symbols);
     var start = eng.ctx.currentTime + (options && options.leadIn != null ? options.leadIn : 0.05);
@@ -291,6 +321,7 @@
     progressionEvents: progressionEvents,
     displaySymbols: displaySymbols,
     statusLine: statusLine,
-    playProgression: playProgression
+    playProgression: playProgression,
+    playMelody: playMelody
   };
 });
