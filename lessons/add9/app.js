@@ -73,6 +73,7 @@
       g.connect(master);
       g.connect(conv);
       src.start(when);
+      return src;
     }
 
     return {
@@ -80,10 +81,11 @@
       setVolume: function (value) {
         master.gain.setValueAtTime(value, ctx.currentTime);
       },
-      playPiano: function (midi, when, gain) {
-        var key = "p" + midi;
-        if (!cache.has(key)) cache.set(key, bufferFrom(S.renderPiano(midi, RENDER_RATE, 1.95)));
-        voice(cache.get(key), when, gain, 1);
+      playPiano: function (midi, when, gain, seconds) {
+        var dur = seconds || 1.95;
+        var key = "p" + midi + ":" + Math.round(dur * 1000);
+        if (!cache.has(key)) cache.set(key, bufferFrom(S.renderPiano(midi, RENDER_RATE, dur)));
+        return voice(cache.get(key), when, gain, 1);
       },
       playGuitar: function (midi, brightness, when, gain) {
         var key = "g" + midi + ":" + Math.round(brightness * 100);
@@ -922,22 +924,12 @@
     var box = document.getElementById("loopStatus");
     if (box) {
       box.hidden = false;
-      box.textContent = "在播 " + symbols.join(" · ") + "，两遍。这段按写下的调，不跟上面的转调走。";
+      box.textContent = window.ChordVoice.statusLine(symbols) + "这段按写下的调，不跟上面的转调走。";
     }
-    var voices = symbols.map(function (symbol) { return window.ChordVoice.notes(symbol); });
     withAudio(function (eng) {
-      var step = 0.58;
-      var when = eng.ctx.currentTime + 0.05;
-      var rep, i;
-      for (rep = 0; rep < 2; rep++) {
-        for (i = 0; i < voices.length; i++) {
-          voices[i].forEach(function (midi) {
-            var at = when + (rep * voices.length + i) * step;
-            eng.playPiano(midi, at, 0.68);
-            pulseMidi(midi, at, 420);
-          });
-        }
-      }
+      window.ChordVoice.playProgression(eng, symbols, {
+        onEvent: function (event) { pulseMidi(event.midi, event.when, 700); }
+      });
     });
   }
 
