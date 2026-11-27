@@ -19,11 +19,16 @@
         <p class="eyebrow">写歌用的和弦</p>
         <h1 id="chordTitle"><span id="symRoot">C</span><span class="add" id="symQuality"></span></h1>
       </div>
-      <p class="lede">挂留是把三音换掉：sus2 换成二音，sus4 换成四音，三音不在。附加是三音留着，再加一个颜色。add9 就是三音还在、再加九音。二音和九音可以是同一个琴键，差在三音还在不在。</p>
+      <p class="lede">在 C 调里，挂留最有用的是 V：Gsus4 再落到 G。四音悬着，三音不在，所以想解决。add9 是另一件事：三音留着再加九音，常用在 I 和 IV，不在这一课的默认钮上。</p>
     </header>
+    <section class="in-key" aria-labelledby="inKeyHeading">
+      <div class="section-h"><span>级数</span><h2 id="inKeyHeading">在 C 调里放在几级</h2></div>
+      <p class="prose">挂留放在 V：默认是 Gsus4，再点「落到 V」听 G。sus2 仍是这一级。对照的 add9 是 IV 的 Fadd9，三音还在，不是挂留。</p>
+      <p class="prose"><a class="site-back" href="../../map/index.html">C 调实用地图</a> · <a class="site-back" href="../../swap/index.html">常用进行的替换</a></p>
+    </section>
     <div class="toolbar">
       <div class="keys" id="quality" role="group" aria-label="哪一种颜色"></div>
-      <div class="keys" id="keys" role="group" aria-label="转到哪个调"></div>
+      <div class="keys" id="keys" role="group" aria-label="歌曲的调"></div>
     </div>
     <ol class="tones" id="tones"></ol>
     <p class="ninth-now" id="colorNow"></p>
@@ -36,7 +41,7 @@
     <p class="status" id="audioStatus">点任意按钮或琴键，浏览器才会出声。</p>
     <section aria-labelledby="pianoHeading">
       <div class="section-h"><span>01</span><h2 id="pianoHeading">钢琴</h2></div>
-      <p class="prose">sus2 是根音、二音、五音。sus4 是根音、四音、五音。add9 是根音、五音、九音、三音。三个钮来回点，只听三音在不在。</p>
+      <p class="prose">默认响的是 Gsus4。点「落到 G」听三音回来。sus2 是同一级把四音换成二音。对照钮里的 add9 是 Fadd9，三音还在。</p>
       <p class="hands" id="pianoLine"></p>
       <div class="transport">
         <button type="button" class="btn primary" id="pianoBlock">齐奏</button>
@@ -148,6 +153,8 @@
     </section>
     <footer>
       <p><a class="site-back" href="../../index.html">回到目录</a>
+        · <a class="site-back" href="../../map/index.html">C 调实用地图</a>
+        · <a class="site-back" href="../../swap/index.html">常用进行的替换</a>
         · <a class="site-back" href="../min7/index.html">上一课：小七 / 小九</a>
         · <a class="site-back" href="../slash/index.html">下一课：斜杠 / 低音</a></p>
       <p>声音在这台设备上合成。不需要网络，也不需要采样。点一下才会出声。</p>

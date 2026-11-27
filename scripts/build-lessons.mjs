@@ -284,6 +284,52 @@ function songsHtml(lesson) {
   return html;
 }
 
+const IN_KEY = {
+  maj7: {
+    lead: "大七先放在 IV：现在打开就是 Fmaj7。I 上的 Cmaj7、IV 和 I 的大九，点上面的颜色钮。a 小调里 Fmaj7 是 VI，Cmaj7 是 III，不是这一课的默认。",
+  },
+  min7: {
+    lead: "小七不要默认成 Cm7。C 调里先是 ii 的 Dm7，然后 vi 的 Am7、iii 的 Em7。借来的 i 才是 Cm7，放在最后。a 小调里先用 Am7。",
+  },
+  sus: {
+    lead: "挂留放在 V：默认是 Gsus4，再点「落到 V」听 G。sus2 仍是这一级。对照的 add9 是 IV 的 Fadd9，三音还在，不是挂留。",
+  },
+  slash: {
+    lead: "斜杠在这里是低音线，不是一串 C 根音。先听 C、G/B、Am、Am/G，低音是 C、B、A、G。再听 C、C/E、F、G，低音走到三音。",
+  },
+  secondary: {
+    lead: "默认是 D7，V/V，去 G。E7 是 V/vi，去 Am，也是 a 小调的属七。A7 是 V/ii，去 Dm。C7 是 V/IV，去 F。C7 不是主和弦的色彩。",
+  },
+  dim: {
+    lead: "默认是 C♯°7，夹在 C 和 Dm 中间：I 到升 I 减七再到 ii。另一钮是进到 V 的连接，不是把 C°7 当成主角。",
+  },
+  borrow: {
+    lead: "默认是 iv：Fm 换掉 F，听 F、Fm、C。bVI 是 Ab，bVII 是 Bb。借来的小主和弦不是这一课的第一钮。",
+  },
+  dom9: {
+    lead: "属九和属十三放在 V：默认 G9，下一钮是 G13，都去 C、Cmaj7 或 C6。C9 那一钮标成布鲁斯式主和弦或去 F 的 V/IV，不是默认。",
+  },
+  altered: {
+    lead: "变化音仍是 C 调的 V：G7 加上降九、升九、升十一或降十三，去 C 或 Am。a 小调如果要用更紧的属七，点最后的 E7b9，那不是默认。",
+  },
+  tritone: {
+    lead: "bII7 换掉 V7。C 调里用 Db7 代替 G 或 G7，低音 Db 走到 C。它和 G7 共用 B 和 F 这一组三全音。",
+  },
+  twfive: {
+    lead: "就在 C 调：Dm7、G7、Cmaj7。加色是 Dm9、G13、C6/9。不要改成别的调里、根音却是 C 的 ii–V–I。",
+  },
+};
+
+function inKeyHtml(lesson) {
+  const block = IN_KEY[lesson.slug];
+  if (!block) return "";
+  return `    <section class="in-key" aria-labelledby="inKeyHeading">
+      <div class="section-h"><span>级数</span><h2 id="inKeyHeading">在 C 调里放在几级</h2></div>
+      <p class="prose">${block.lead}</p>
+      <p class="prose"><a class="site-back" href="../../map/index.html">C 调实用地图</a> · <a class="site-back" href="../../swap/index.html">常用进行的替换</a></p>
+    </section>\n`;
+}
+
 function page(lesson, index) {
   const prev = nav[index + 1]; // wait nav includes add9 six first, lessons start at index 2
   return "";
@@ -322,9 +368,9 @@ function writePages() {
       </div>
       <p class="lede">${lesson.lede}</p>
     </header>
-    <div class="toolbar">
+${inKeyHtml(lesson)}    <div class="toolbar">
       <div class="keys" id="quality" role="group" aria-label="哪一种颜色"></div>
-      <div class="keys" id="keys" role="group" aria-label="转到哪个调"></div>
+      <div class="keys" id="keys" role="group" aria-label="歌曲的调"></div>
     </div>
     <ol class="tones" id="tones"></ol>
     <p class="ninth-now" id="colorNow"></p>
@@ -388,6 +434,8 @@ function writePages() {
     </section>
     <footer>
       <p><a class="site-back" href="../../index.html">回到目录</a>
+        · <a class="site-back" href="../../map/index.html">C 调实用地图</a>
+        · <a class="site-back" href="../../swap/index.html">常用进行的替换</a>
         · <a class="site-back" href="../${prev.slug}/index.html">上一课：${prev.title}</a>
         ${next ? `· <a class="site-back" href="../${next.slug}/index.html">下一课：${next.title}</a>` : ""}</p>
       <p>声音在这台设备上合成。不需要网络，也不需要采样。点一下才会出声。</p>
