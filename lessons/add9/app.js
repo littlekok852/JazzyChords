@@ -918,6 +918,42 @@
     if (engine) engine.setVolume(state.volume);
   });
 
+  function playLoop(symbols) {
+    var box = document.getElementById("loopStatus");
+    if (box) {
+      box.hidden = false;
+      box.textContent = "在播 " + symbols.join(" · ") + "，两遍。这段按写下的调，不跟上面的转调走。";
+    }
+    var voices = symbols.map(function (symbol) { return window.ChordVoice.notes(symbol); });
+    withAudio(function (eng) {
+      var step = 0.58;
+      var when = eng.ctx.currentTime + 0.05;
+      var rep, i;
+      for (rep = 0; rep < 2; rep++) {
+        for (i = 0; i < voices.length; i++) {
+          voices[i].forEach(function (midi) {
+            var at = when + (rep * voices.length + i) * step;
+            eng.playPiano(midi, at, 0.68);
+            pulseMidi(midi, at, 420);
+          });
+        }
+      }
+    });
+  }
+
+  document.querySelectorAll("[data-chords]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      playLoop(button.getAttribute("data-chords").trim().split(/\s+/));
+    });
+  });
+  document.querySelectorAll("[data-keyjump]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      state.keyId = button.getAttribute("data-keyjump");
+      renderDynamic();
+      document.getElementById("guitarHeading").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
   buildPiano();
   renderDynamic();
 })();
