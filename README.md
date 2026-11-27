@@ -60,15 +60,6 @@ node lessons/six/verify.js
 
 ## 线上
 
-公开页面还没打开。把代码推进 `main` 可以，但这个权限改不了 Pages（GitHub 返回需要 `pages=write`）。所以现在没有可以打开的公开地址。
+https://littlekok852.github.io/JazzyChords/
 
-请在浏览器里点这几下：
-
-1. 打开 [Settings → Pages](https://github.com/littlekok852/JazzyChords/settings/pages)。
-2. 在 **Build and deployment** 里，Source 选 **Deploy from a branch**。
-3. Branch 选 **main**，文件夹选 **/ (root)**。
-4. 点 **Save**。
-
-保存之后，同一页上方会出现 **Visit site**。那条链接才是公开地址。第一次发布常常要等一两分钟，刷新这一页就能看到。站点用的是 `main` 根目录的 `index.html`，不用再加 Actions 工作流。
-
-如果保存后构建失败，用这个账号再往 `main` 推一次。GitHub 有时要管理员、并且邮箱已验证的人推过发布分支，页面才会出来。
+从 `main` 的根目录发布。目录是首页，第一课在 `lessons/add9/`，第二课在 `lessons/six/`。推上去之后，页面有时要一两分钟才换成新的。
