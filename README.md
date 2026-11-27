@@ -2,7 +2,7 @@
 
 给写歌的人用的色彩和弦百科。写粤语歌、普通话歌的伴奏，不是爵士教材。吉他、贝斯和键盘放在同一页里听。
 
-这一版写成了两课。
+第一遍十三课都写成了，从 add9 到 ii–V–I。每课一个颜色，指板是演奏视角，圆点是音级。
 
 **add9**（从 Cadd9 听起）：
 
@@ -20,9 +20,9 @@
 - 吉他仍是不靠空弦的移动把位。圆点是 R、3、5、6、9
 - 6 的圆点里没有 9。贝斯守根音，不把六音放在低音上
 
-两课都有「用到歌里」：先听、再仿一小段和弦、再换进自己的进行。没有歌词，也没有整首歌的谱。
+每一课都有「用到歌里」：先听、再仿两三格和弦、再换进自己的进行。没有歌词，也没有整首歌的谱。
 
-后面的题目先排在目录里，模拟器还没做：下一课是大七与大九，然后是小七与小九、挂留和附加、斜杠和弦。再往后是副属、经过减和弦、调式互换。更后面是属九与属十三、变化音、三全音代替、ii–V–I 的色彩。
+顺序是：add9，6 / 6/9，大七 / 大九，小七 / 小九，挂留和附加，斜杠和弦，副属，经过减，调式互换，属九 / 属十三，变化音，三全音代替，ii–V–I。
 
 ## 本地打开
 
@@ -44,6 +44,7 @@ python3 -m http.server 8741
 ```bash
 node lessons/add9/verify.js
 node lessons/six/verify.js
+node lessons/maj7/verify.js
 ```
 
 ## 目录
@@ -51,10 +52,21 @@ node lessons/six/verify.js
 | 路径 | 状态 |
 | --- | --- |
 | `index.html` | 目录，学习路径 |
-| `lessons/add9/` | 第一课，add9 / Cadd9 |
-| `lessons/six/` | 第二课，6 和 6/9 |
-| `assets/site.css` | 目录、导航，以及「用到歌里」的共用样式 |
-| `assets/voice.js` | 仿奏那几格和弦的音，两课共用 |
+| `lessons/add9/` | add9 |
+| `lessons/six/` | 6 / 6/9 |
+| `lessons/maj7/` | 大七 / 大九 |
+| `lessons/min7/` | 小七 / 小九 |
+| `lessons/sus/` | 挂留和附加 |
+| `lessons/slash/` | 斜杠和弦 |
+| `lessons/secondary/` | 副属 |
+| `lessons/dim/` | 经过减 |
+| `lessons/borrow/` | 调式互换 |
+| `lessons/dom9/` | 属九 / 属十三 |
+| `lessons/altered/` | 变化音 |
+| `lessons/tritone/` | 三全音代替 |
+| `lessons/twfive/` | ii–V–I |
+| `assets/lesson.js` | 第三课起共用的指板和播放 |
+| `assets/voice.js` | 仿奏那几格和弦的音 |
 
 新的课以后放在 `lessons/` 下面，并在首页路径里接上。不要把还没做的课写成空的模拟器页。
 

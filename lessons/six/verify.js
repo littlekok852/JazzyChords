@@ -163,7 +163,7 @@ assert(uniqPcs("G7") === "2,5,7,11", "G7");
 assert(uniqPcs("Cmaj7") === "0,4,7,11", "Cmaj7 contrast");
 assert(voice.notes("C6").indexOf(59) === -1 && voice.notes("C6/9").indexOf(59) === -1, "song voicings of 6 and 6/9 have no leading tone");
 
-["Cadd11", "C13", "H6", "Cmaj9"].forEach(function (bad) {
+["Cadd11", "H6", "C7sus9"].forEach(function (bad) {
   var threw = false;
   try { voice.notes(bad); } catch (err) { threw = true; }
   assert(threw, bad + " should not parse");

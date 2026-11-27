@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>挂留 / 附加 · 色彩百科</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23efe6d6' width='32' height='32' rx='6'/%3E%3Ccircle cx='10' cy='18' r='3.2' fill='%239c4a28'/%3E%3Ccircle cx='16' cy='12' r='3.2' fill='%23e8c27a'/%3E%3Ccircle cx='22' cy='18' r='3.2' fill='%23241c16'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../assets/site.css">
+  <link rel="stylesheet" href="../../assets/lesson.css">
+</head>
+<body>
+  <div class="page">
+    <nav class="site-nav" aria-label="站点">
+      <a class="brand" href="../../index.html">色彩百科</a>
+      <span class="nav-note">第五课 · 挂留和附加</span>
+    </nav>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">写歌用的和弦</p>
+        <h1 id="chordTitle"><span id="symRoot">C</span><span class="add" id="symQuality"></span></h1>
+      </div>
+      <p class="lede">挂留是把三音换掉：sus2 换成二音，sus4 换成四音，三音不在。附加是三音留着，再加一个颜色。add9 就是三音还在、再加九音。二音和九音可以是同一个琴键，差在三音还在不在。</p>
+    </header>
+    <div class="toolbar">
+      <div class="keys" id="quality" role="group" aria-label="哪一种颜色"></div>
+      <div class="keys" id="keys" role="group" aria-label="转到哪个调"></div>
+    </div>
+    <ol class="tones" id="tones"></ol>
+    <p class="ninth-now" id="colorNow"></p>
+    <div class="sliders">
+      <label class="slider"><span class="slider-top"><span>琶音间隔</span><span id="speedLabel">160 毫秒</span></span>
+        <input id="speed" type="range" min="70" max="420" value="160" aria-label="琶音间隔"></label>
+      <label class="slider"><span class="slider-top"><span>音量</span><span id="volumeLabel">82%</span></span>
+        <input id="volume" type="range" min="0" max="100" value="82" aria-label="音量"></label>
+    </div>
+    <p class="status" id="audioStatus">点任意按钮或琴键，浏览器才会出声。</p>
+    <section aria-labelledby="pianoHeading">
+      <div class="section-h"><span>01</span><h2 id="pianoHeading">钢琴</h2></div>
+      <p class="prose">sus2 是根音、二音、五音。sus4 是根音、四音、五音。add9 是根音、五音、九音、三音。三个钮来回点，只听三音在不在。</p>
+      <p class="hands" id="pianoLine"></p>
+      <div class="transport">
+        <button type="button" class="btn primary" id="pianoBlock">齐奏</button>
+        <button type="button" class="btn" id="pianoUp">琶音上行</button>
+        <button type="button" class="btn" id="pianoDown">琶音下行</button>
+      </div>
+      <div class="transport" id="compare"></div>
+      <p class="hint">sus4 最常回到大三，四音落到三音。sus2 可以回去，也可以就停着。add9 不必解决。</p>
+      <div class="piano-scroll"><div class="piano" id="piano" role="group" aria-label="钢琴键盘"></div></div>
+    </section>
+    <section aria-labelledby="guitarHeading">
+      <div class="section-h"><span>02</span><h2 id="guitarHeading">吉他</h2></div>
+      <p class="prose">第一课 A 弦那把 add9（x-3-5-5-3-3）没有三音，响出来就是 sus2。这一课把那把放在 sus2 里。三音还在的 add9 用高把位那两把。空弦的 Cadd9、Dsus4 只作对照。</p>
+      <p class="legend">指板是演奏视角：低头看琴时，低音弦在下、靠近你，高音弦在上。sus2 是 R、2、5。sus4 是 R、4、5。add9 是 R、3、5、9。2 和 9 同音高：2 表示三音被换掉，9 表示三音还在。 闷住的弦不标音级。圆点不是手指序号。转调之后音级不变。</p>
+      <h3 class="group-title">全指板位置</h3>
+      <div id="neckOverview"></div>
+      <h3 class="group-title">低把位</h3>
+      <div class="stack" id="guitarLow"></div>
+      <h3 class="group-title">高把位</h3>
+      <p class="prose quiet" id="highNote"></p>
+      <div class="stack" id="guitarHigh"></div>
+    </section>
+    <section aria-labelledby="bassHeading">
+      <div class="section-h"><span>03</span><h2 id="bassHeading">贝斯</h2></div>
+      <p class="prose">贝斯给根音。挂留的紧张在上面的 2 或 4。</p>
+      <div class="bass-notes" id="bassNotes"></div>
+      <div class="transport">
+        <button type="button" class="btn primary" id="bassRoot">根音</button>
+        <button type="button" class="btn" id="bassFifth">五音</button>
+        <button type="button" class="btn" id="bassWalk">根—五—根</button>
+      </div>
+    </section>
+    <section aria-labelledby="dailyHeading">
+      <div class="section-h"><span>04</span><h2 id="dailyHeading">今天练</h2></div>
+      <p class="prose">同一个根音，依次弹大三、sus4、sus2、add9。说出三音还在不在。</p>
+    </section>
+    <section aria-labelledby="useHeading">
+      <div class="section-h"><span>05</span><h2 id="useHeading">用到歌里</h2></div>
+      <p class="prose">先听它在歌里干什么，再仿两三格和弦，最后放进自己的进行。没有歌词。点下去是钢琴齐奏，每格一拍，连放两遍。这段按写下的调，不跟上面选的调走。</p>
+      <p class="status" id="loopStatus" hidden></p>
+      <h3 class="group-title">流行</h3>
+<article class="song pop">
+        <h3>Wonderwall</h3>
+        <p class="meta">Oasis · 常见吉他编配 · 变调夹 2 品</p>
+        <p class="caveat">常见吉他编配，不是逐音对过原编。变调夹在第 2 品。G 这里按大三，不把整首说成 add9。</p>
+        <p class="beat"><span class="label">听</span>主歌循环是 Em7、G、Dsus4、A7sus4，空的是 sus4。副歌前才出现 Cadd9，旁边仍是 Dsus4。挂留和附加在同一首歌里，干的不是一件事。</p>
+<p class="beat"><span class="label">仿</span>先四格主歌，再三格副歌前。</p>
+        <div class="changes"><div class="change">
+            <p class="where">谱面调</p>
+            <p class="notation">Em7 · G · Dsus4 · A7sus4</p>
+            <button type="button" class="btn" data-chords="Em7 G Dsus4 A7sus4">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">挪到以 C 为主音的一圈</p>
+            <p class="notation">Am7 · C · Gsus4 · D7sus4</p>
+            <button type="button" class="btn" data-chords="Am7 C Gsus4 D7sus4">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">副歌前，谱面调</p>
+            <p class="notation">Cadd9 · Dsus4 · Em7</p>
+            <button type="button" class="btn" data-chords="Cadd9 Dsus4 Em7">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">副歌前，挪到 C</p>
+            <p class="notation">Fadd9 · Gsus4 · Am7</p>
+            <button type="button" class="btn" data-chords="Fadd9 Gsus4 Am7">听这段</button>
+          </div></div>
+        <p class="source">依据：Acoustic Binder；Heartwood Guitar；Open Guitar Chords。主歌和弦和副歌前的 Cadd9、Dsus4 三处一致。</p>
+      </article>
+<article class="song pop">
+        <h3>Message in a Bottle</h3>
+        <p class="meta">The Police · 前奏和主歌</p>
+        
+        <p class="beat"><span class="label">听</span>四格里三格是 sus2：C#sus2、Asus2、Bsus2。最后一格常被说成 sus2，可是里面有降三，应记成 F#madd9。就差这个三音。</p>
+<p class="beat"><span class="label">仿</span>四格。最后一格按有三音的小调附加来记。</p>
+        <div class="changes"><div class="change">
+            <p class="where">原调</p>
+            <p class="notation">C♯sus2 · Asus2 · Bsus2 · F♯madd9</p>
+            <button type="button" class="btn" data-chords="C#sus2 Asus2 Bsus2 F#madd9">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">第一格挪成 Csus2</p>
+            <p class="notation">Csus2 · A♭sus2 · B♭sus2 · Fmadd9</p>
+            <button type="button" class="btn" data-chords="Csus2 Absus2 Bbsus2 Fmadd9">听这段</button>
+          </div></div>
+        <p class="source">依据：Spy Tunes；GuitarTuna。Spy Tunes 写明最后一格是 F#madd9。</p>
+      </article>
+
+      <h3 class="group-title">用</h3>
+      <article class="song pop">
+        <h3>同一个低音，三音在不在</h3>
+        <p class="beat"><span class="label">用</span>低音都从 C 走。大三有 E，sus4 把 E 换成 F，add9 是 E 还在再加 D。再用你自己的四格换一次。</p>
+        <div class="changes"><div class="change">
+            <p class="where">大三</p>
+            <p class="notation">C · G · Am · F</p>
+            <button type="button" class="btn" data-chords="C G Am F">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">C 换成 sus4</p>
+            <p class="notation">Csus4 · G · Am · F</p>
+            <button type="button" class="btn" data-chords="Csus4 G Am F">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">C 换成 add9</p>
+            <p class="notation">Cadd9 · G · Am · F</p>
+            <button type="button" class="btn" data-chords="Cadd9 G Am F">听这段</button>
+          </div></div>
+      </article>
+    </section>
+    <footer>
+      <p><a class="site-back" href="../../index.html">回到目录</a>
+        · <a class="site-back" href="../min7/index.html">上一课：小七 / 小九</a>
+        · <a class="site-back" href="../slash/index.html">下一课：斜杠 / 低音</a></p>
+      <p>声音在这台设备上合成。不需要网络，也不需要采样。点一下才会出声。</p>
+    </footer>
+  </div>
+  <script src="theory.js"></script>
+  <script src="../../assets/sound.js"></script>
+  <script src="../../assets/voice.js"></script>
+  <script src="../../assets/lesson.js"></script>
+</body>
+</html>

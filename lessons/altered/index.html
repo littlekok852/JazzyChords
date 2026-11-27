@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>变化音 · 色彩百科</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23efe6d6' width='32' height='32' rx='6'/%3E%3Ccircle cx='10' cy='18' r='3.2' fill='%239c4a28'/%3E%3Ccircle cx='16' cy='12' r='3.2' fill='%23e8c27a'/%3E%3Ccircle cx='22' cy='18' r='3.2' fill='%23241c16'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../assets/site.css">
+  <link rel="stylesheet" href="../../assets/lesson.css">
+</head>
+<body>
+  <div class="page">
+    <nav class="site-nav" aria-label="站点">
+      <a class="brand" href="../../index.html">色彩百科</a>
+      <span class="nav-note">第十一课 · 变化属和弦</span>
+    </nav>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">写歌用的和弦</p>
+        <h1 id="chordTitle"><span id="symRoot">C</span><span class="add" id="symQuality"></span></h1>
+      </div>
+      <p class="lede">变化属和弦仍是属七，只是九音、五音或十一音被升高或降低。降九更挤，升九更冲，升十一更亮，降十三更暗。主歌里的流行歌不必用它。它是紧张的 V，可有可无。</p>
+    </header>
+    <div class="toolbar">
+      <div class="keys" id="quality" role="group" aria-label="哪一种颜色"></div>
+      <div class="keys" id="keys" role="group" aria-label="转到哪个调"></div>
+    </div>
+    <ol class="tones" id="tones"></ol>
+    <p class="ninth-now" id="colorNow"></p>
+    <div class="sliders">
+      <label class="slider"><span class="slider-top"><span>琶音间隔</span><span id="speedLabel">160 毫秒</span></span>
+        <input id="speed" type="range" min="70" max="420" value="160" aria-label="琶音间隔"></label>
+      <label class="slider"><span class="slider-top"><span>音量</span><span id="volumeLabel">82%</span></span>
+        <input id="volume" type="range" min="0" max="100" value="82" aria-label="音量"></label>
+    </div>
+    <p class="status" id="audioStatus">点任意按钮或琴键，浏览器才会出声。</p>
+    <section aria-labelledby="pianoHeading">
+      <div class="section-h"><span>01</span><h2 id="pianoHeading">钢琴</h2></div>
+      <p class="prose">每一种都留着三音和降七。变化的是另外一个音。四个钮分开听，不要一次叠四种。</p>
+      <p class="hands" id="pianoLine"></p>
+      <div class="transport">
+        <button type="button" class="btn primary" id="pianoBlock">齐奏</button>
+        <button type="button" class="btn" id="pianoUp">琶音上行</button>
+        <button type="button" class="btn" id="pianoDown">琶音下行</button>
+      </div>
+      <div class="transport" id="compare"></div>
+      <p class="hint">变化属七仍然去主和弦，去大调或小调都可以。变化音在解决的那一拍离开。</p>
+      <div class="piano-scroll"><div class="piano" id="piano" role="group" aria-label="钢琴键盘"></div></div>
+    </section>
+    <section aria-labelledby="guitarHeading">
+      <div class="section-h"><span>02</span><h2 id="guitarHeading">吉他</h2></div>
+      <p class="prose">把位都在属音的低把位，跨度两三品。升九那把就是常被叫做 Hendrix 和弦的指法，这里只学这个音，不学整首歌。</p>
+      <p class="legend">指板是演奏视角：低头看琴时，低音弦在下、靠近你，高音弦在上。b9、#9、#11、b13 都是相对这颗属七的根音。三音仍写 3，降七仍写 b7。 闷住的弦不标音级。圆点不是手指序号。转调之后音级不变。</p>
+      <h3 class="group-title">全指板位置</h3>
+      <div id="neckOverview"></div>
+      <h3 class="group-title">低把位</h3>
+      <div class="stack" id="guitarLow"></div>
+      <h3 class="group-title">高把位</h3>
+      <p class="prose quiet" id="highNote"></p>
+      <div class="stack" id="guitarHigh"></div>
+    </section>
+    <section aria-labelledby="bassHeading">
+      <div class="section-h"><span>03</span><h2 id="bassHeading">贝斯</h2></div>
+      <p class="prose">贝斯守属音。变化音放在上面。</p>
+      <div class="bass-notes" id="bassNotes"></div>
+      <div class="transport">
+        <button type="button" class="btn primary" id="bassRoot">根音</button>
+        <button type="button" class="btn" id="bassFifth">五音</button>
+        <button type="button" class="btn" id="bassWalk">根—五—根</button>
+      </div>
+    </section>
+    <section aria-labelledby="dailyHeading">
+      <div class="section-h"><span>04</span><h2 id="dailyHeading">今天练</h2></div>
+      <p class="prose">只练一种：G7 和 G7b9 都去 C。听 Ab 有没有让属七更紧。</p>
+    </section>
+    <section aria-labelledby="useHeading">
+      <div class="section-h"><span>05</span><h2 id="useHeading">用到歌里</h2></div>
+      <p class="prose">先听它在歌里干什么，再仿两三格和弦，最后放进自己的进行。没有歌词。点下去是钢琴齐奏，每格一拍，连放两遍。这段按写下的调，不跟上面选的调走。</p>
+      <p class="status" id="loopStatus" hidden></p>
+      <h3 class="group-title jazz">爵士 / 功能</h3>
+<article class="song jazz">
+        <h3>Isn't She Lovely 里的一格</h3>
+        <p class="meta">Stevie Wonder · 原调 E · 副歌前</p>
+        
+        <p class="beat"><span class="label">听</span>副歌前除了 Amaj7，下一格是 G#7#5。升五和降十三是同一个音高。这是变化属和弦，不是大七。</p>
+<p class="beat"><span class="label">仿</span>两格：大七，然后这颗变化属七。</p>
+        <div class="changes"><div class="change">
+            <p class="where">原调 E</p>
+            <p class="notation">Amaj7 · G♯7#5</p>
+            <button type="button" class="btn" data-chords="Amaj7 G#7#5">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">转到 C</p>
+            <p class="notation">Fmaj7 · E7#5</p>
+            <button type="button" class="btn" data-chords="Fmaj7 E7#5">听这段</button>
+          </div></div>
+        <p class="source">依据：Spy Tunes；Jon MacLennan。两处都把这一格写成 G#7#5。</p>
+      </article>
+
+      <h3 class="group-title">用</h3>
+      <article class="song pop">
+        <h3>可有可无的紧张</h3>
+        <p class="beat"><span class="label">用</span>流行歌可以永远不用。如果一句的属七太干，只换一种变化再解决。听完选一种，或者换回去。</p>
+        <div class="changes"><div class="change">
+            <p class="where">干的属七</p>
+            <p class="notation">Dm7 · G7 · C</p>
+            <button type="button" class="btn" data-chords="Dm7 G7 C">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">降九</p>
+            <p class="notation">Dm7 · G7b9 · C</p>
+            <button type="button" class="btn" data-chords="Dm7 G7b9 C">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">升九</p>
+            <p class="notation">Dm7 · G7#9 · C</p>
+            <button type="button" class="btn" data-chords="Dm7 G7#9 C">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">降十三</p>
+            <p class="notation">Dm7 · G7b13 · Cm</p>
+            <button type="button" class="btn" data-chords="Dm7 G7b13 Cm">听这段</button>
+          </div></div>
+      </article>
+    </section>
+    <footer>
+      <p><a class="site-back" href="../../index.html">回到目录</a>
+        · <a class="site-back" href="../dom9/index.html">上一课：属九 / 属十三</a>
+        · <a class="site-back" href="../tritone/index.html">下一课：三全音代替</a></p>
+      <p>声音在这台设备上合成。不需要网络，也不需要采样。点一下才会出声。</p>
+    </footer>
+  </div>
+  <script src="theory.js"></script>
+  <script src="../../assets/sound.js"></script>
+  <script src="../../assets/voice.js"></script>
+  <script src="../../assets/lesson.js"></script>
+</body>
+</html>
