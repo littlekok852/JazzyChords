@@ -148,10 +148,149 @@
     return notesFromPc(parsed.root, parsed.quality, parsed.bass);
   }
 
+  /* Progression loops: 90 BPM, one bar per symbol.
+     A token like Gsus4+G is one bar split evenly between those chords.
+     Pass 1 is a sustained block. Pass 2 is eighth-note arpeggios that fill the same bars. */
+  var BPM = 90;
+  var BEAT = 60 / BPM;
+  var BAR = BEAT * 4;
+  var EIGHTH = BEAT / 2;
+  var RELEASE = 0.03;
+  var running = typeof WeakMap === "function" ? new WeakMap() : null;
+
+  function slotsOf(symbols) {
+    var slots = [];
+    symbols.forEach(function (token) {
+      var parts = String(token).split("+").map(function (part) { return part.trim(); }).filter(Boolean);
+      if (!parts.length) return;
+      var share = BAR / parts.length;
+      parts.forEach(function (symbol) {
+        slots.push({ symbol: symbol, duration: share });
+      });
+    });
+    return slots;
+  }
+
+  function arpSequence(symbol, count) {
+    var parsed = parseSymbol(symbol);
+    var raw = notes(symbol);
+    var chordNotes = parsed.bass == null ? raw : raw.slice(1);
+    var recipe = RECIPES[parsed.quality];
+    var byInterval = {};
+    recipe.forEach(function (interval, index) {
+      byInterval[((interval % 12) + 12) % 12] = chordNotes[index];
+    });
+    var prefer = [0, 7, 4, 11, 10, 3, 2, 5, 9, 1, 6, 8];
+    var order = [];
+    prefer.forEach(function (interval) {
+      var midi = byInterval[interval];
+      if (midi != null && order.indexOf(midi) < 0) order.push(midi);
+    });
+    chordNotes.forEach(function (midi) {
+      if (order.indexOf(midi) < 0) order.push(midi);
+    });
+    if (!order.length) order = raw.slice();
+    var seq = [];
+    var step;
+    for (step = 0; step < count; step++) seq.push(order[step % order.length]);
+    if (parsed.bass != null) {
+      seq[0] = raw[0];
+      if (count > 4) seq[4] = raw[0];
+    }
+    return seq;
+  }
+
+  function progressionEvents(symbols) {
+    var slots = slotsOf(symbols);
+    var pass = slots.reduce(function (sum, slot) { return sum + slot.duration; }, 0);
+    var events = [];
+    var passIndex, cursor, slotIndex, slot, chord, step, count, seq, hit;
+    for (passIndex = 0; passIndex < 2; passIndex++) {
+      cursor = passIndex * pass;
+      for (slotIndex = 0; slotIndex < slots.length; slotIndex++) {
+        slot = slots[slotIndex];
+        if (passIndex === 0) {
+          chord = notes(slot.symbol);
+          chord.forEach(function (midi) {
+            events.push({
+              kind: "block",
+              symbol: slot.symbol,
+              midi: midi,
+              at: cursor,
+              gain: chord.length > 4 ? 0.48 : 0.62,
+              seconds: Math.max(0.25, slot.duration - RELEASE)
+            });
+          });
+        } else {
+          count = Math.max(1, Math.round(slot.duration / EIGHTH));
+          seq = arpSequence(slot.symbol, count);
+          for (step = 0; step < count; step++) {
+            hit = cursor + step * EIGHTH;
+            events.push({
+              kind: "arp",
+              symbol: slot.symbol,
+              midi: seq[step],
+              at: hit,
+              gain: 0.5,
+              seconds: Math.max(0.12, cursor + slot.duration - hit - RELEASE)
+            });
+          }
+        }
+        cursor += slot.duration;
+      }
+    }
+    return { slots: slots, events: events, pass: pass, total: pass * 2, bpm: BPM };
+  }
+
+  function displaySymbols(symbols) {
+    var names = [];
+    symbols.forEach(function (token) {
+      String(token).split("+").forEach(function (part) {
+        if (part.trim()) names.push(part.trim());
+      });
+    });
+    return names.join(" · ");
+  }
+
+  function statusLine(symbols) {
+    return "在播 " + displaySymbols(symbols) + "。先柱式，再琶音，大约 90 拍。";
+  }
+
+  function stopProgression(eng) {
+    if (!running) return;
+    var previous = running.get(eng);
+    if (!previous) return;
+    previous.forEach(function (src) {
+      try { src.stop(); } catch (err) { /* already ended */ }
+    });
+    running.delete(eng);
+  }
+
+  function playProgression(eng, symbols, options) {
+    var plan = progressionEvents(symbols);
+    var start = eng.ctx.currentTime + (options && options.leadIn != null ? options.leadIn : 0.05);
+    var owned = [];
+    stopProgression(eng);
+    if (running) running.set(eng, owned);
+    plan.events.forEach(function (event) {
+      var src = eng.playPiano(event.midi, start + event.at, event.gain, event.seconds);
+      if (src) owned.push(src);
+      if (options && options.onEvent && event.kind === "block") {
+        options.onEvent({ midi: event.midi, when: start + event.at, seconds: event.seconds, symbol: event.symbol });
+      }
+    });
+    return plan;
+  }
+
   return {
     parseSymbol: parseSymbol,
     notesFromPc: notesFromPc,
     notes: notes,
-    RECIPES: RECIPES
+    RECIPES: RECIPES,
+    BPM: BPM,
+    progressionEvents: progressionEvents,
+    displaySymbols: displaySymbols,
+    statusLine: statusLine,
+    playProgression: playProgression
   };
 });

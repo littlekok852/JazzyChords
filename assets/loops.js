@@ -34,9 +34,10 @@
         volume = value;
         master.gain.setValueAtTime(value, ctx.currentTime);
       },
-      playPiano: function (midi, when, gain) {
-        var key = "p" + midi;
-        if (!cache.has(key)) cache.set(key, bufferFrom(S.renderPiano(midi, RENDER_RATE, 1.95)));
+      playPiano: function (midi, when, gain, seconds) {
+        var dur = seconds || 1.95;
+        var key = "p" + midi + ":" + Math.round(dur * 1000);
+        if (!cache.has(key)) cache.set(key, bufferFrom(S.renderPiano(midi, RENDER_RATE, dur)));
         var src = ctx.createBufferSource();
         src.buffer = cache.get(key);
         var g = ctx.createGain();
@@ -44,6 +45,7 @@
         src.connect(g);
         g.connect(master);
         src.start(when);
+        return src;
       }
     };
   }
@@ -58,26 +60,16 @@
   }
 
   function play(symbols, status) {
-    var voices = symbols.map(function (symbol) { return root.ChordVoice.notes(symbol); });
     if (status) {
       status.hidden = false;
-      status.textContent = "在播 " + symbols.join(" · ") + "，两遍。";
+      status.textContent = root.ChordVoice.statusLine(symbols);
     }
     return ensure().then(function (eng) {
       if (!eng) {
         if (status) status.textContent = "这个浏览器没有放开音频。请换 Chrome、Edge、Firefox 或 Safari。";
         return;
       }
-      var step = 0.58;
-      var when = eng.ctx.currentTime + 0.05;
-      var rep, i;
-      for (rep = 0; rep < 2; rep++) {
-        for (i = 0; i < voices.length; i++) {
-          voices[i].forEach(function (midi) {
-            eng.playPiano(midi, when + (rep * voices.length + i) * step, voices[i].length > 4 ? 0.55 : 0.68);
-          });
-        }
-      }
+      root.ChordVoice.playProgression(eng, symbols);
     }).catch(function () {
       if (status) {
         status.hidden = false;
