@@ -483,6 +483,32 @@ body.home {
   box-shadow: inset 3px 0 0 var(--brass);
 }
 .cell.jazz { box-shadow: inset 3px 0 0 #2f6f6a; }
+.cell.mark { background: #f3e0c4; box-shadow: inset 3px 0 0 var(--brass); }
+
+.family {
+  display: inline-block;
+  margin: 0 0 8px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+.family.major { background: #f3e0c4; color: var(--brass); }
+.family.minor { background: #e4ebe8; color: #2f6f6a; }
+
+.chord-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 8px;
+  margin: 8px 0 0;
+}
+.chord-grid div {
+  padding: 8px 10px;
+  background: var(--paper);
+  border-radius: 12px;
+}
+.chord-grid b { display: block; color: var(--brass); font-size: 13px; font-weight: 650; }
+.chord-grid span { font-family: var(--serif); font-size: 18px; }
 .cell b { display: block; font-family: var(--serif); font-size: 18px; font-weight: 560; }
 .cell span { color: var(--soft); font-size: 12px; }
 

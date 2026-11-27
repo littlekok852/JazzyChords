@@ -56,6 +56,7 @@ node lessons/maj7/verify.js
 | `index.html` | 目录，学习路径 |
 | `map/` | C 调实用地图 |
 | `swap/` | 常用进行的替换 |
+| `modes/` | 教会调式，主音都在 C |
 | `lessons/add9/` | add9 |
 | `lessons/six/` | 6 / 6/9 |
 | `lessons/maj7/` | 大七 / 大九 |

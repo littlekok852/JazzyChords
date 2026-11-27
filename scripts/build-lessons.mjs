@@ -326,7 +326,7 @@ function inKeyHtml(lesson) {
   return `    <section class="in-key" aria-labelledby="inKeyHeading">
       <div class="section-h"><span>级数</span><h2 id="inKeyHeading">在 C 调里放在几级</h2></div>
       <p class="prose">${block.lead}</p>
-      <p class="prose"><a class="site-back" href="../../map/index.html">C 调实用地图</a> · <a class="site-back" href="../../swap/index.html">常用进行的替换</a></p>
+      <p class="prose"><a class="site-back" href="../../map/index.html">C 调实用地图</a> · <a class="site-back" href="../../swap/index.html">常用进行的替换</a> · <a class="site-back" href="../../modes/index.html">教会调式</a></p>
     </section>\n`;
 }
 
@@ -436,6 +436,7 @@ ${inKeyHtml(lesson)}    <div class="toolbar">
       <p><a class="site-back" href="../../index.html">回到目录</a>
         · <a class="site-back" href="../../map/index.html">C 调实用地图</a>
         · <a class="site-back" href="../../swap/index.html">常用进行的替换</a>
+        · <a class="site-back" href="../../modes/index.html">教会调式</a>
         · <a class="site-back" href="../${prev.slug}/index.html">上一课：${prev.title}</a>
         ${next ? `· <a class="site-back" href="../${next.slug}/index.html">下一课：${next.title}</a>` : ""}</p>
       <p>声音在这台设备上合成。不需要网络，也不需要采样。点一下才会出声。</p>
