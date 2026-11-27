@@ -290,3 +290,69 @@ body.home {
   }
   .queue .about, .stage-list .about { grid-column: 1 / -1; }
 }
+
+.song {
+  margin: 12px 0;
+  padding: 14px 16px 16px;
+  background: var(--paper);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.song.pop { box-shadow: inset 3px 0 0 var(--brass), var(--shadow); }
+.song.jazz { box-shadow: inset 3px 0 0 #2f6f6a, var(--shadow); }
+
+.song h3 {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+}
+
+.song .meta {
+  margin: 2px 0 8px;
+  color: var(--soft);
+  font-size: 13px;
+}
+
+.beat { margin: 8px 0; }
+
+.beat .label {
+  display: inline-block;
+  margin-right: 6px;
+  color: var(--brass);
+  font-weight: 700;
+}
+
+.song.jazz .beat .label { color: #2f6f6a; }
+
+.changes { display: grid; gap: 8px; margin-top: 8px; }
+
+.change {
+  padding: 8px 10px 10px;
+  border-radius: 12px;
+  background: rgba(255, 251, 245, 0.72);
+}
+
+.change .where {
+  margin: 0 0 2px;
+  color: var(--soft);
+  font-size: 13px;
+}
+
+.song .source,
+.use-note {
+  margin: 8px 0 0;
+  color: var(--soft);
+  font-size: 13.5px;
+}
+
+.caveat {
+  margin: 8px 0;
+  padding: 8px 10px;
+  border-left: 3px solid var(--brass);
+  border-radius: 0 10px 10px 0;
+  background: #f3e0c4;
+  color: #3c332c;
+}
+
+.group-title.jazz { color: #2f6f6a; }
