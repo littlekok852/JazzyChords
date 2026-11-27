@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Cadd9 和弦模拟器</title>
+  <meta name="description" content="给写歌的人用的 Cadd9：钢琴排列、不靠空弦的吉他把位，可以转调，在浏览器里直接听。">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23efe6d6' width='32' height='32' rx='6'/%3E%3Ccircle cx='10' cy='18' r='3.2' fill='%239c4a28'/%3E%3Ccircle cx='16' cy='12' r='3.2' fill='%23e8c27a'/%3E%3Ccircle cx='22' cy='18' r='3.2' fill='%23241c16'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../assets/site.css">
+  <style>
+    :root {
+      --bg: #e9dfcf;
+      --paper: #f7f1e6;
+      --ink: #241c16;
+      --soft: #6a5e53;
+      --line: #ddcfc0;
+      --brass: #9c4a28;
+      --gold: #e8c27a;
+      --wood: #5c3b30;
+      --shadow: 0 10px 30px rgba(70, 42, 24, 0.06);
+      --sans: "Avenir Next", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", "WenQuanYi Micro Hei", "Droid Sans Fallback", sans-serif;
+      --serif: "Iowan Old Style", Palatino, "Palatino Linotype", "Songti SC", "STSong", "Noto Serif SC", serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(900px 420px at 10% -10%, rgba(255, 248, 236, 0.9), transparent 60%),
+        var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+    button, input { font-family: inherit; }
+    button { touch-action: manipulation; }
+    :focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+    .page {
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto;
+      padding-bottom: 64px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px 40px;
+      align-items: end;
+      padding: 32px 0 8px;
+    }
+    .eyebrow {
+      margin: 0 0 6px;
+      color: var(--brass);
+      font-size: 13px;
+      letter-spacing: 0.14em;
+    }
+    h1 {
+      margin: 0;
+      font-family: var(--serif);
+      font-weight: 560;
+      font-size: clamp(76px, 12vw, 124px);
+      line-height: 0.8;
+      letter-spacing: -0.045em;
+    }
+    h1 .add {
+      font-style: italic;
+      font-weight: 500;
+      color: var(--brass);
+    }
+    .lede {
+      margin: 0 0 8px;
+      max-width: 34em;
+      font-size: 17px;
+      color: #3c332c;
+    }
+
+    .tones {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 6px;
+      padding: 0;
+      list-style: none;
+    }
+    .tones li {
+      min-width: 88px;
+      padding: 8px 12px 10px;
+      background: var(--paper);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+    }
+    .tones b {
+      display: block;
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 560;
+      line-height: 1;
+    }
+    .tones span { color: var(--soft); font-size: 13px; }
+    .tones .is-color {
+      background: #f3e0c4;
+    }
+    .tones .is-color b { color: var(--brass); }
+    .ninth-now {
+      margin: 8px 0 0;
+      color: var(--soft);
+      font-size: 14px;
+    }
+
+    .toolbar { margin: 18px 0 4px; }
+    @media (min-width: 860px) {
+      .toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        background: #e9dfcf;
+        margin: 12px 0 0;
+        padding: 8px 0 10px;
+        border-bottom: 1px solid var(--line);
+      }
+    }
+    .sliders { margin: 12px 0 8px; }
+    section, .voicing { scroll-margin-top: 72px; }
+    .keys { display: flex; flex-wrap: wrap; gap: 6px; }
+    .key-btn {
+      min-width: 46px;
+      height: 42px;
+      padding: 0 12px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--soft);
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .key-btn[aria-pressed="true"] {
+      background: var(--ink);
+      color: var(--paper);
+    }
+    @media (hover: hover) {
+      .key-btn:hover { background: rgba(255, 251, 245, 0.7); color: var(--ink); }
+      .key-btn[aria-pressed="true"]:hover { background: var(--ink); color: var(--paper); }
+    }
+    .sliders {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px 28px;
+    }
+    .slider { min-width: min(100%, 240px); flex: 1; }
+    .slider-top, .slider-ends {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--soft);
+    }
+    .slider-top { color: var(--ink); font-size: 14px; }
+    input[type="range"] { width: 100%; accent-color: var(--brass); margin: 6px 0; }
+    .status { margin: 10px 0 0; color: var(--brass); font-size: 14px; }
+    .status[hidden] { display: none; }
+
+    section { margin-top: 34px; }
+    .section-h {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .section-h span {
+      font-variant-numeric: tabular-nums;
+      color: var(--brass);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+    }
+    h2 { margin: 0; font-size: 28px; font-weight: 640; letter-spacing: -0.02em; }
+    h3 { margin: 0; font-size: 22px; font-weight: 640; letter-spacing: -0.02em; }
+    .prose { margin: 0 0 8px; max-width: 68ch; }
+    .prose.quiet, .hint, .legend { color: var(--soft); }
+    .hint, .legend, .aside { font-size: 14.5px; }
+    .aside {
+      margin: 10px 0 18px;
+      padding-left: 14px;
+      border-left: 3px solid #c9b59a;
+      color: var(--soft);
+      max-width: 68ch;
+    }
+    .group-title {
+      margin: 22px 0 8px;
+      font-size: 15px;
+      font-weight: 640;
+      letter-spacing: 0.04em;
+      color: var(--brass);
+    }
+
+    .hands {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 22px;
+      margin: 10px 0;
+      font-size: 18px;
+    }
+    .hands b { font-family: var(--serif); font-weight: 560; }
+
+    .transport { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+    .btn {
+      min-height: 44px;
+      padding: 8px 16px;
+      border: 1px solid #d9cbb8;
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    @media (hover: hover) {
+      .btn:hover { border-color: var(--brass); }
+      .btn.primary:hover { background: #3a2e26; }
+    }
+
+    .piano-scroll {
+      overflow-x: auto;
+      padding: 28px 8px 10px;
+      border-radius: 14px;
+      background: #d9cbb6;
+    }
+    .piano {
+      position: relative;
+      display: flex;
+      height: 176px;
+      min-width: 720px;
+      user-select: none;
+    }
+    .key { padding: 0; cursor: pointer; }
+    .key.white {
+      position: relative;
+      z-index: 1;
+      flex: 1;
+      height: 100%;
+      border: 0;
+      border-right: 1px solid #d2c3ae;
+      border-radius: 0 0 7px 7px;
+      background: linear-gradient(#fffdf8, #f1e6d4);
+      box-shadow: inset 0 -10px 14px rgba(90, 55, 25, 0.05);
+    }
+    .key.black {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      height: 61%;
+      border: 0;
+      border-radius: 0 0 5px 5px;
+      background: linear-gradient(#3a332e, #14110f);
+      box-shadow: 0 7px 8px rgba(0, 0, 0, 0.28);
+    }
+    .key.white .key-label {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 8px;
+      font-size: 12px;
+      font-weight: 650;
+      text-align: center;
+      color: var(--ink);
+      pointer-events: none;
+    }
+    .key.black .key-label {
+      position: absolute;
+      left: 50%;
+      top: -22px;
+      transform: translateX(-50%);
+      font-size: 12px;
+      font-weight: 650;
+      color: var(--ink);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    .key.white.is-chord { background: linear-gradient(#ffe6c2, #f0c27a); }
+    .key.white.is-ninth { background: linear-gradient(#ffd2ad, #e08a3f); }
+    .key.black.is-chord { background: linear-gradient(#e0a25a, #8d5318); }
+    .key.black.is-ninth { background: linear-gradient(#f0b56a, #9c4a28); }
+    .key.black.is-chord .key-label,
+    .key.black.is-ninth .key-label { color: var(--brass); }
+    .key.is-sounding { box-shadow: 0 0 0 3px #fff6ea, 0 0 0 5px var(--brass); }
+    @media (prefers-reduced-motion: no-preference) {
+      .key { transition: background 80ms linear; }
+    }
+
+    .stack { display: grid; gap: 14px; }
+    .voicing {
+      display: grid;
+      grid-template-columns: minmax(280px, 480px) minmax(0, 1fr);
+      gap: 6px 22px;
+      align-items: start;
+      padding: 14px;
+      background: var(--paper);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+    }
+    .diagram-scroll { overflow-x: auto; }
+    .diagram {
+      width: 100%;
+      height: auto;
+      display: block;
+      font-family: var(--sans);
+    }
+    .dot.is-sounding { stroke: #fffaf3; stroke-width: 3px; }
+    .title-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 10px; }
+    .tag {
+      color: var(--brass);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+    .notation {
+      margin: 2px 0 8px;
+      font-family: var(--serif);
+      font-size: 22px;
+      letter-spacing: 0.04em;
+    }
+    .sounding { margin: 0 0 6px; }
+    .card-note { margin: 0 0 8px; color: #3f362f; }
+    .place-hint { margin: 0 0 8px; color: var(--brass); font-size: 14px; }
+    .voicing.is-focused { box-shadow: 0 0 0 2px var(--brass), var(--shadow); }
+    .neck-panel {
+      padding: 14px;
+      background: var(--paper);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      margin: 4px 0 18px;
+    }
+    .neck-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 12px;
+    }
+    .chip {
+      min-height: 40px;
+      padding: 6px 13px;
+      border: 1px solid #d9cbb8;
+      border-radius: 999px;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .chip.is-on {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+    .neck-scroll { overflow-x: auto; }
+    .neck-hint { margin: 10px 0 0; }
+    details { margin-top: 8px; }
+    summary { cursor: pointer; color: var(--soft); font-size: 14px; }
+    .math { margin: 8px 0 0; padding-left: 1.1em; color: var(--soft); font-size: 14px; }
+    .legend { margin-top: 14px; max-width: 70ch; }
+
+    .bass-notes { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; }
+    .pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      font-family: var(--serif);
+      font-size: 18px;
+    }
+
+    footer {
+      margin-top: 40px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+      color: var(--soft);
+      font-size: 14px;
+    }
+    footer p { margin: 0 0 6px; }
+
+    @media (max-width: 800px) {
+      .hero { grid-template-columns: 1fr; gap: 8px; padding-top: 28px; }
+      .voicing { grid-template-columns: 1fr; }
+      .page { width: min(1040px, calc(100% - 20px)); }
+      .piano { height: 148px; min-width: 640px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="site-nav" aria-label="站点">
+      <a class="brand" href="../../index.html">色彩百科</a>
+      <span class="nav-note">第一课 · add9</span>
+    </nav>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">写歌用的和弦</p>
+        <h1><span id="symRoot">C</span><span class="add">add9</span></h1>
+      </div>
+      <p class="lede">九音是色彩音。没有七音，所以它留在流行的明亮里，不会变成爵士。</p>
+    </header>
+
+    <ol class="tones" id="tones"></ol>
+    <p class="ninth-now" id="ninthNow"></p>
+
+    <div class="toolbar">
+      <div class="keys" id="keys" role="group" aria-label="转到哪个调"></div>
+    </div>
+    <div class="sliders">
+        <label class="slider">
+          <span class="slider-top"><span>琶音间隔</span><span id="speedLabel">160 毫秒</span></span>
+          <input id="speed" type="range" min="70" max="420" value="160" aria-label="琶音间隔">
+          <span class="slider-ends"><span>更快</span><span>更慢</span></span>
+        </label>
+        <label class="slider">
+          <span class="slider-top"><span>音量</span><span id="volumeLabel">82%</span></span>
+          <input id="volume" type="range" min="0" max="100" value="82" aria-label="音量">
+          <span class="slider-ends"><span>小</span><span>大</span></span>
+        </label>
+    </div>
+    <p class="status" id="audioStatus">点任意按钮或琴键，浏览器才会出声。</p>
+
+    <section aria-labelledby="pianoHeading">
+      <div class="section-h"><span>01</span><h2 id="pianoHeading">钢琴</h2></div>
+      <p class="prose">左手只放根音。右手从下往上是五音、九音、三音，九音夹在中间，亮，但不尖。</p>
+      <p class="hands" id="pianoLine"></p>
+      <div class="transport">
+        <button type="button" class="btn primary" id="pianoBlock">齐奏</button>
+        <button type="button" class="btn" id="pianoUp">琶音上行</button>
+        <button type="button" class="btn" id="pianoDown">琶音下行</button>
+      </div>
+      <div class="piano-scroll">
+        <div class="piano" id="piano" role="group" aria-label="钢琴键盘"></div>
+      </div>
+      <p class="hint">金色键是这个和弦。颜色更深的那一颗是九音。点任何琴键都可以单音听。C4 是中央 C。手机上可以左右滑动键盘。</p>
+    </section>
+
+    <section aria-labelledby="guitarHeading">
+      <div class="section-h"><span>02</span><h2 id="guitarHeading">吉他</h2></div>
+      <p class="prose">下面几把都不靠空弦，所以能整把移动。把 C 调的 x-3-5-5-3-3 上移两品，就是 Dadd9（x-5-7-7-5-5）。</p>
+      <p class="aside">对照，这里不演示：空弦 Cadd9 常写成 x32030。A 弦 3 品是 C，D 弦 2 品是 E，G 弦空弦是 G，B 弦 3 品是 D，高音 e 空弦是 E。空弦一把移走就走音。</p>
+      <p class="legend">指板是演奏视角：低头看琴时，低音弦在下、靠近你，高音弦在上。齐奏是很快的下扫。琶音按上面的间隔，从低音到高音，闷住的弦不响。圆点里标的是音级：R 是根音，3 是三音，5 是五音，9 是九音。铜色圆点是根音，金色圆点是九音。× 是闷音，不标音级。</p>
+      <h3 class="group-title">全指板位置</h3>
+      <p class="prose quiet">这几把落在指板的两处：低把位大约在 3–5 品，高把位大约在 8–10 品，转调后会一起移动。点把位名称，只看那一把在整根脖子上的位置；也可以一次看全部位置。</p>
+      <div id="neckOverview"></div>
+      <h3 class="group-title">低把位</h3>
+      <div class="stack" id="guitarLow"></div>
+      <h3 class="group-title">高把位 · 同一个上声部，只换低音</h3>
+      <p class="prose quiet">D 弦是根音，G 弦是三音，B 弦是五音，高音 e 是九音。四把的这四根弦一样，区别只在低音 E 和 A：闷住、只按五音，或加上根音。转调之后，这层关系还在。</p>
+      <div class="stack" id="guitarHigh"></div>
+    </section>
+
+    <section aria-labelledby="bassHeading">
+      <div class="section-h"><span>03</span><h2 id="bassHeading">贝斯</h2></div>
+      <p class="prose">贝斯守住根音就够沉。想让低音走起来，再加五音。九音留在钢琴和吉他上，放低了会糊。</p>
+      <div class="bass-notes" id="bassNotes"></div>
+      <div class="transport">
+        <button type="button" class="btn primary" id="bassRoot">根音</button>
+        <button type="button" class="btn" id="bassFifth">五音</button>
+        <button type="button" class="btn" id="bassWalk">根—五—根</button>
+      </div>
+    </section>
+
+    <footer>
+      <p><a class="site-back" href="../../index.html">回到目录</a></p>
+      <p>标准调弦：低音 E、A、D、G、B、高音 e。品位从 1 品起算，这些把位没有空弦。C4 是中央 C。</p>
+      <p>声音在这台设备上合成：钢琴用略有不和谐度的泛音，吉他用拨弦，贝斯用低音泛音。不需要网络，也不需要采样文件。</p>
+    </footer>
+  </div>
+  <noscript>需要打开 JavaScript，琴键和播放才工作。</noscript>
+  <script src="theory.js"></script>
+  <script src="sound.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
