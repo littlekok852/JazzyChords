@@ -24,12 +24,26 @@
   var RECIPES = {
     maj: [0, 7, 16],
     add9: [0, 7, 14, 16],
+    madd9: [0, 3, 7, 14],
     "6": [0, 7, 9, 16],
     "69": [0, 7, 9, 14, 16],
     m: [0, 3, 7],
     m7: [0, 3, 7, 10],
+    m9: [0, 3, 10, 14],
     "7": [0, 4, 7, 10],
-    maj7: [0, 7, 11, 16]
+    "9": [0, 4, 10, 14],
+    "13": [0, 4, 10, 21],
+    "7sus4": [0, 5, 7, 10],
+    "7b9": [0, 4, 10, 13],
+    "7#9": [0, 4, 10, 15],
+    "7#11": [0, 4, 10, 18],
+    "7b13": [0, 4, 10, 20],
+    "7#5": [0, 4, 8, 10],
+    sus2: [0, 2, 7],
+    sus4: [0, 5, 7],
+    dim7: [0, 3, 6, 9],
+    maj7: [0, 7, 11, 16],
+    maj9: [0, 11, 14, 16]
   };
 
   function parseSymbol(symbol) {
@@ -44,15 +58,57 @@
     if (rest.indexOf("6/9") === 0) {
       quality = "69";
       rest = rest.slice(3);
+    } else if (rest.indexOf("madd9") === 0) {
+      quality = "madd9";
+      rest = rest.slice(5);
     } else if (rest.indexOf("add9") === 0) {
       quality = "add9";
+      rest = rest.slice(4);
+    } else if (rest.indexOf("maj9") === 0) {
+      quality = "maj9";
       rest = rest.slice(4);
     } else if (rest.indexOf("maj7") === 0) {
       quality = "maj7";
       rest = rest.slice(4);
+    } else if (rest.indexOf("m9") === 0) {
+      quality = "m9";
+      rest = rest.slice(2);
     } else if (rest.indexOf("m7") === 0) {
       quality = "m7";
       rest = rest.slice(2);
+    } else if (rest.indexOf("dim7") === 0) {
+      quality = "dim7";
+      rest = rest.slice(4);
+    } else if (rest.indexOf("sus2") === 0) {
+      quality = "sus2";
+      rest = rest.slice(4);
+    } else if (rest.indexOf("sus4") === 0) {
+      quality = "sus4";
+      rest = rest.slice(4);
+    } else if (rest.indexOf("7sus4") === 0) {
+      quality = "7sus4";
+      rest = rest.slice(5);
+    } else if (rest.indexOf("7b9") === 0) {
+      quality = "7b9";
+      rest = rest.slice(3);
+    } else if (rest.indexOf("7#9") === 0) {
+      quality = "7#9";
+      rest = rest.slice(3);
+    } else if (rest.indexOf("7#11") === 0) {
+      quality = "7#11";
+      rest = rest.slice(4);
+    } else if (rest.indexOf("7b13") === 0) {
+      quality = "7b13";
+      rest = rest.slice(4);
+    } else if (rest.indexOf("7#5") === 0) {
+      quality = "7#5";
+      rest = rest.slice(3);
+    } else if (rest.indexOf("13") === 0) {
+      quality = "13";
+      rest = rest.slice(2);
+    } else if (rest.indexOf("9") === 0) {
+      quality = "9";
+      rest = rest.slice(1);
     } else if (rest.indexOf("6") === 0) {
       quality = "6";
       rest = rest.slice(1);

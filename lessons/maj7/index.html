@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>大七 / 大九 · 色彩百科</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23efe6d6' width='32' height='32' rx='6'/%3E%3Ccircle cx='10' cy='18' r='3.2' fill='%239c4a28'/%3E%3Ccircle cx='16' cy='12' r='3.2' fill='%23e8c27a'/%3E%3Ccircle cx='22' cy='18' r='3.2' fill='%23241c16'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../assets/site.css">
+  <link rel="stylesheet" href="../../assets/lesson.css">
+</head>
+<body>
+  <div class="page">
+    <nav class="site-nav" aria-label="站点">
+      <a class="brand" href="../../index.html">色彩百科</a>
+      <span class="nav-note">第三课 · 大七 / 大九</span>
+    </nav>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">写歌用的和弦</p>
+        <h1 id="chordTitle"><span id="symRoot">C</span><span class="add" id="symQuality"></span></h1>
+      </div>
+      <p class="lede">大七的七音比根音的高八度低半音。这个导音让和弦悬着，比上一课的 6 更亮，也更不肯停死。大九是大七再加九音，七音还在。七音不在的九和弦是 add9，那是第一课。</p>
+    </header>
+    <div class="toolbar">
+      <div class="keys" id="quality" role="group" aria-label="哪一种颜色"></div>
+      <div class="keys" id="keys" role="group" aria-label="转到哪个调"></div>
+    </div>
+    <ol class="tones" id="tones"></ol>
+    <p class="ninth-now" id="colorNow"></p>
+    <div class="sliders">
+      <label class="slider"><span class="slider-top"><span>琶音间隔</span><span id="speedLabel">160 毫秒</span></span>
+        <input id="speed" type="range" min="70" max="420" value="160" aria-label="琶音间隔"></label>
+      <label class="slider"><span class="slider-top"><span>音量</span><span id="volumeLabel">82%</span></span>
+        <input id="volume" type="range" min="0" max="100" value="82" aria-label="音量"></label>
+    </div>
+    <p class="status" id="audioStatus">点任意按钮或琴键，浏览器才会出声。</p>
+    <section aria-labelledby="pianoHeading">
+      <div class="section-h"><span>01</span><h2 id="pianoHeading">钢琴</h2></div>
+      <p class="prose">左手根音。大七的右手先放七音和三音。大九在七音旁边再加九音。先点四个对照钮：大三、6、大七、大九，只听多出来的是 A 还是 B，有没有再加 D。</p>
+      <p class="hands" id="pianoLine"></p>
+      <div class="transport">
+        <button type="button" class="btn primary" id="pianoBlock">齐奏</button>
+        <button type="button" class="btn" id="pianoUp">琶音上行</button>
+        <button type="button" class="btn" id="pianoDown">琶音下行</button>
+      </div>
+      <div class="transport" id="compare"></div>
+      <p class="hint">大七可以自己停着，也可以当 IV 去到主和弦。它不像属七那样非解决不可。</p>
+      <div class="piano-scroll"><div class="piano" id="piano" role="group" aria-label="钢琴键盘"></div></div>
+    </section>
+    <section aria-labelledby="guitarHeading">
+      <div class="section-h"><span>02</span><h2 id="guitarHeading">吉他</h2></div>
+      <p class="prose">每把能响的音都写在圆点上。大九那把高把位没有根音，根音交给贝斯，页面上写明白了。</p>
+      <p class="legend">指板是演奏视角：低头看琴时，低音弦在下、靠近你，高音弦在上。R 根音，3 三音，5 五音，7 大七，9 九音。 闷住的弦不标音级。圆点不是手指序号。转调之后音级不变。</p>
+      <h3 class="group-title">全指板位置</h3>
+      <div id="neckOverview"></div>
+      <h3 class="group-title">低把位</h3>
+      <div class="stack" id="guitarLow"></div>
+      <h3 class="group-title">高把位</h3>
+      <p class="prose quiet" id="highNote"></p>
+      <div class="stack" id="guitarHigh"></div>
+    </section>
+    <section aria-labelledby="bassHeading">
+      <div class="section-h"><span>03</span><h2 id="bassHeading">贝斯</h2></div>
+      <p class="prose">贝斯守根音。大七的导音放低了会和根音顶在一起。</p>
+      <div class="bass-notes" id="bassNotes"></div>
+      <div class="transport">
+        <button type="button" class="btn primary" id="bassRoot">根音</button>
+        <button type="button" class="btn" id="bassFifth">五音</button>
+        <button type="button" class="btn" id="bassWalk">根—五—根</button>
+      </div>
+    </section>
+    <section aria-labelledby="dailyHeading">
+      <div class="section-h"><span>04</span><h2 id="dailyHeading">今天练</h2></div>
+      <p class="prose">当前调把大三、6、大七、大九各齐奏一次。说出大七那个音的名字。</p>
+    </section>
+    <section aria-labelledby="useHeading">
+      <div class="section-h"><span>05</span><h2 id="useHeading">用到歌里</h2></div>
+      <p class="prose">先听它在歌里干什么，再仿两三格和弦，最后放进自己的进行。没有歌词。点下去是钢琴齐奏，每格一拍，连放两遍。这段按写下的调，不跟上面选的调走。</p>
+      <p class="status" id="loopStatus" hidden></p>
+      <h3 class="group-title">流行</h3>
+<article class="song pop">
+        <h3>Isn't She Lovely</h3>
+        <p class="meta">Stevie Wonder · 原调 E · 副歌前</p>
+        
+        <p class="beat"><span class="label">听</span>原调 E。副歌前那句从 Amaj7 起，它是 IV，大七让这句悬着。前奏不是大七，前奏是小七和属九，留到后面的课。</p>
+<p class="beat"><span class="label">仿</span>只听这个大七，不把后面的变化属和弦写进来。</p>
+        <div class="changes"><div class="change">
+            <p class="where">原调 E</p>
+            <p class="notation">Amaj7 · Amaj7</p>
+            <button type="button" class="btn" data-chords="Amaj7 Amaj7">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">转到 C，IV 变成 Fmaj7</p>
+            <p class="notation">Fmaj7 · Fmaj7</p>
+            <button type="button" class="btn" data-chords="Fmaj7 Fmaj7">听这段</button>
+          </div></div>
+        <p class="source">依据：Spy Tunes；Jon MacLennan。两处都把这句写成 Amaj7。</p>
+      </article>
+<article class="song pop">
+        <h3>Just the Two of Us</h3>
+        <p class="meta">Grover Washington Jr. / Bill Withers · 原调 D♭</p>
+        
+        <p class="beat"><span class="label">听</span>主歌坐在 Dbmaj7 上，旁边接到 C7 和 Fm7。大七在这里是家。</p>
+<p class="beat"><span class="label">仿</span>三格。这是灵魂乐的用法。</p>
+        <div class="changes"><div class="change">
+            <p class="where">原调 D♭</p>
+            <p class="notation">D♭maj7 · C7 · Fm7</p>
+            <button type="button" class="btn" data-chords="Dbmaj7 C7 Fm7">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">转到 C</p>
+            <p class="notation">Cmaj7 · B7 · Em7</p>
+            <button type="button" class="btn" data-chords="Cmaj7 B7 Em7">听这段</button>
+          </div></div>
+        <p class="source">依据：Spy Tunes；Tab4U；E-chords。开头的 Dbmaj7 三份谱一致。</p>
+      </article>
+
+      <h3 class="group-title">用</h3>
+      <article class="song pop">
+        <h3>把 6 换成大七</h3>
+        <p class="beat"><span class="label">用</span>上一课的落点如果太稳，把 C6 换成 Cmaj7，或再加九音变成 Cmaj9。C 调的导音是 B，九音是 D。</p>
+        <div class="changes"><div class="change">
+            <p class="where">6 的落点</p>
+            <p class="notation">C · C6</p>
+            <button type="button" class="btn" data-chords="C C6">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">换成大七</p>
+            <p class="notation">C · Cmaj7</p>
+            <button type="button" class="btn" data-chords="C Cmaj7">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">再加大九</p>
+            <p class="notation">C · Cmaj9</p>
+            <button type="button" class="btn" data-chords="C Cmaj9">听这段</button>
+          </div></div>
+      </article>
+    </section>
+    <footer>
+      <p><a class="site-back" href="../../index.html">回到目录</a>
+        · <a class="site-back" href="../six/index.html">上一课：6 / 6/9</a>
+        · <a class="site-back" href="../min7/index.html">下一课：小七 / 小九</a></p>
+      <p>声音在这台设备上合成。不需要网络，也不需要采样。点一下才会出声。</p>
+    </footer>
+  </div>
+  <script src="theory.js"></script>
+  <script src="../../assets/sound.js"></script>
+  <script src="../../assets/voice.js"></script>
+  <script src="../../assets/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ii–V–I · 色彩百科</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23efe6d6' width='32' height='32' rx='6'/%3E%3Ccircle cx='10' cy='18' r='3.2' fill='%239c4a28'/%3E%3Ccircle cx='16' cy='12' r='3.2' fill='%23e8c27a'/%3E%3Ccircle cx='22' cy='18' r='3.2' fill='%23241c16'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../assets/site.css">
+  <link rel="stylesheet" href="../../assets/lesson.css">
+</head>
+<body>
+  <div class="page">
+    <nav class="site-nav" aria-label="站点">
+      <a class="brand" href="../../index.html">色彩百科</a>
+      <span class="nav-note">第十三课 · ii–V–I</span>
+    </nav>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">写歌用的和弦</p>
+        <h1 id="chordTitle"><span id="symRoot">C</span><span class="add" id="symQuality"></span></h1>
+      </div>
+      <p class="lede">ii–V–I 是把前面学过的颜色按一条拉力排好：小七去属七，属七去主和弦。这一课不发明新和弦，只把已经会的小七、属七、大七，以及小九、属十三、6/9 装进这一句。</p>
+    </header>
+    <div class="toolbar">
+      <div class="keys" id="quality" role="group" aria-label="哪一种颜色"></div>
+      <div class="keys" id="keys" role="group" aria-label="转到哪个调"></div>
+    </div>
+    <ol class="tones" id="tones"></ol>
+    <p class="ninth-now" id="colorNow"></p>
+    <div class="sliders">
+      <label class="slider"><span class="slider-top"><span>琶音间隔</span><span id="speedLabel">160 毫秒</span></span>
+        <input id="speed" type="range" min="70" max="420" value="160" aria-label="琶音间隔"></label>
+      <label class="slider"><span class="slider-top"><span>音量</span><span id="volumeLabel">82%</span></span>
+        <input id="volume" type="range" min="0" max="100" value="82" aria-label="音量"></label>
+    </div>
+    <p class="status" id="audioStatus">点任意按钮或琴键，浏览器才会出声。</p>
+    <section aria-labelledby="pianoHeading">
+      <div class="section-h"><span>01</span><h2 id="pianoHeading">钢琴</h2></div>
+      <p class="prose">先听朴素的三格，再听加了颜色的三格。钮可以单独听 ii、V、I。</p>
+      <p class="hands" id="pianoLine"></p>
+      <div class="transport">
+        <button type="button" class="btn primary" id="pianoBlock">齐奏</button>
+        <button type="button" class="btn" id="pianoUp">琶音上行</button>
+        <button type="button" class="btn" id="pianoDown">琶音下行</button>
+      </div>
+      <div class="transport" id="compare"></div>
+      <p class="hint">拉力在 V 到 I。ii 只是把 V 介绍出来。主和弦用大七更悬，用 6/9 更稳。</p>
+      <div class="piano-scroll"><div class="piano" id="piano" role="group" aria-label="钢琴键盘"></div></div>
+    </section>
+    <section aria-labelledby="guitarHeading">
+      <div class="section-h"><span>02</span><h2 id="guitarHeading">吉他</h2></div>
+      <p class="prose">每一钮是这一句里的一颗和弦，把位都是前面课里的移动形。转调之后，ii、V、I 一起搬。</p>
+      <p class="legend">指板是演奏视角：低头看琴时，低音弦在下、靠近你，高音弦在上。小七看 b3 和 b7，属七看 3 和 b7，大七看 7，6/9 看 6 和 9。不要在一颗和弦上读到它没有的音。 闷住的弦不标音级。圆点不是手指序号。转调之后音级不变。</p>
+      <h3 class="group-title">全指板位置</h3>
+      <div id="neckOverview"></div>
+      <h3 class="group-title">低把位</h3>
+      <div class="stack" id="guitarLow"></div>
+      <h3 class="group-title">高把位</h3>
+      <p class="prose quiet" id="highNote"></p>
+      <div class="stack" id="guitarHigh"></div>
+    </section>
+    <section aria-labelledby="bassHeading">
+      <div class="section-h"><span>03</span><h2 id="bassHeading">贝斯</h2></div>
+      <p class="prose">低音就走 ii 的根音、V 的根音、I 的根音。颜色放在上面。</p>
+      <div class="bass-notes" id="bassNotes"></div>
+      <div class="transport">
+        <button type="button" class="btn primary" id="bassRoot">根音</button>
+        <button type="button" class="btn" id="bassFifth">五音</button>
+        <button type="button" class="btn" id="bassWalk">根—五—根</button>
+      </div>
+    </section>
+    <section aria-labelledby="dailyHeading">
+      <div class="section-h"><span>04</span><h2 id="dailyHeading">今天练</h2></div>
+      <p class="prose">当前调弹两遍：先 Dm7、G7、Cmaj7，再 Dm9、G13、C6/9。留下更适合你这首歌的那一遍。</p>
+    </section>
+    <section aria-labelledby="useHeading">
+      <div class="section-h"><span>05</span><h2 id="useHeading">用到歌里</h2></div>
+      <p class="prose">先听它在歌里干什么，再仿两三格和弦，最后放进自己的进行。没有歌词。点下去是钢琴齐奏，每格一拍，连放两遍。这段按写下的调，不跟上面选的调走。</p>
+      <p class="status" id="loopStatus" hidden></p>
+      <h3 class="group-title jazz">爵士 / 功能</h3>
+<article class="song jazz">
+        <h3>Autumn Leaves 的开头</h3>
+        <p class="meta">标准曲 · 只取 ii–V–I</p>
+        
+        <p class="beat"><span class="label">听</span>秋叶开头在 B♭ 调：Cm7、F7、Bbmaj7。这就是 ii–V–I。这里只取这三格，不排整首。</p>
+<p class="beat"><span class="label">仿</span>三格，再挪到 C。</p>
+        <div class="changes"><div class="change">
+            <p class="where">原调 B♭</p>
+            <p class="notation">Cm7 · F7 · B♭maj7</p>
+            <button type="button" class="btn" data-chords="Cm7 F7 Bbmaj7">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">转到 C</p>
+            <p class="notation">Dm7 · G7 · Cmaj7</p>
+            <button type="button" class="btn" data-chords="Dm7 G7 Cmaj7">听这段</button>
+          </div></div>
+        <p class="source">这是标准曲开头最常见的三格。后面还有小调的 ii–V，这一课不展开。</p>
+      </article>
+<h3 class="group-title">流行</h3>
+<article class="song pop">
+        <h3>流行里的朴素收法</h3>
+        <p class="meta">不是爵士进行</p>
+        
+        <p class="beat"><span class="label">听</span>很多歌只是小三、大三的属、主和弦，没有七音。它和爵士 ii–V–I 是同一条低音，颜色少很多。</p>
+<p class="beat"><span class="label">仿</span>三格，故意不加七音。</p>
+        <div class="changes"><div class="change">
+            <p class="where">C 调</p>
+            <p class="notation">Dm · G · C</p>
+            <button type="button" class="btn" data-chords="Dm G C">听这段</button>
+          </div></div>
+        <p class="source">这一组和上面的爵士分开。</p>
+      </article>
+
+      <h3 class="group-title">用</h3>
+      <article class="song pop">
+        <h3>两种颜色，选一种</h3>
+        <p class="beat"><span class="label">用</span>同一句低音，朴素的一套，和用了小九、属十三、6/9 的一套。写粤语歌或国语歌时留更贴的那套，不必上满。</p>
+        <div class="changes"><div class="change">
+            <p class="where">朴素</p>
+            <p class="notation">Dm · G · C</p>
+            <button type="button" class="btn" data-chords="Dm G C">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">爵士的基本色</p>
+            <p class="notation">Dm7 · G7 · Cmaj7</p>
+            <button type="button" class="btn" data-chords="Dm7 G7 Cmaj7">听这段</button>
+          </div>
+<div class="change">
+            <p class="where">再加已经学过的颜色</p>
+            <p class="notation">Dm9 · G13 · C6/9</p>
+            <button type="button" class="btn" data-chords="Dm9 G13 C6/9">听这段</button>
+          </div></div>
+      </article>
+    </section>
+    <footer>
+      <p><a class="site-back" href="../../index.html">回到目录</a>
+        · <a class="site-back" href="../tritone/index.html">上一课：三全音代替</a>
+        </p>
+      <p>声音在这台设备上合成。不需要网络，也不需要采样。点一下才会出声。</p>
+    </footer>
+  </div>
+  <script src="theory.js"></script>
+  <script src="../../assets/sound.js"></script>
+  <script src="../../assets/voice.js"></script>
+  <script src="../../assets/lesson.js"></script>
+</body>
+</html>
