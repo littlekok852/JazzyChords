@@ -39,6 +39,7 @@
     "7#11": [0, 4, 10, 18],
     "7b13": [0, 4, 10, 20],
     "7#5": [0, 4, 8, 10],
+    alt: [0, 4, 10, 13, 18],
     sus2: [0, 2, 7],
     sus4: [0, 5, 7],
     dim7: [0, 3, 6, 9],
@@ -103,6 +104,9 @@
     } else if (rest.indexOf("7#5") === 0) {
       quality = "7#5";
       rest = rest.slice(3);
+    } else if (rest.indexOf("7alt") === 0) {
+      quality = "alt";
+      rest = rest.slice(4);
     } else if (rest.indexOf("13") === 0) {
       quality = "13";
       rest = rest.slice(2);

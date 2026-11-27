@@ -19,11 +19,16 @@
         <p class="eyebrow">写歌用的和弦</p>
         <h1 id="chordTitle"><span id="symRoot">C</span><span class="add" id="symQuality"></span></h1>
       </div>
-      <p class="lede">副属是临时把旁边的和弦当成主和弦，先弹它的属七。属七里起作用的是大三音和降七，两个音差三全音，把耳朵拉向半音上面的那个临时主和弦。</p>
+      <p class="lede">副属是临时把旁边的和弦当成主和弦，先弹它的属七。C 调里默认先听 D7，它是 V/V，去 G。E7 是 V/vi，也是 a 小调的属七。A7 去 Dm。C7 是 V/IV，去 F，不要把它当成「那个」副属的统称，更不要当成主和弦上的色彩。</p>
     </header>
+    <section class="in-key" aria-labelledby="inKeyHeading">
+      <div class="section-h"><span>级数</span><h2 id="inKeyHeading">在 C 调里放在几级</h2></div>
+      <p class="prose">默认是 D7，V/V，去 G。E7 是 V/vi，去 Am，也是 a 小调的属七。A7 是 V/ii，去 Dm。C7 是 V/IV，去 F。C7 不是主和弦的色彩。</p>
+      <p class="prose"><a class="site-back" href="../../map/index.html">C 调实用地图</a> · <a class="site-back" href="../../swap/index.html">常用进行的替换</a></p>
+    </section>
     <div class="toolbar">
       <div class="keys" id="quality" role="group" aria-label="哪一种颜色"></div>
-      <div class="keys" id="keys" role="group" aria-label="转到哪个调"></div>
+      <div class="keys" id="keys" role="group" aria-label="歌曲的调"></div>
     </div>
     <ol class="tones" id="tones"></ol>
     <p class="ninth-now" id="colorNow"></p>
@@ -36,7 +41,7 @@
     <p class="status" id="audioStatus">点任意按钮或琴键，浏览器才会出声。</p>
     <section aria-labelledby="pianoHeading">
       <div class="section-h"><span>01</span><h2 id="pianoHeading">钢琴</h2></div>
-      <p class="prose">先听属七自己的三音和降七，再听它解决到的那个和弦。钮上的 V/V、V/ii、V/vi 会跟着上面的调一起搬。</p>
+      <p class="prose">先听属七自己的三音和降七，再听它解决到的那个和弦。钮上写的是功能：V/V、V/ii、V/vi、V/IV。</p>
       <p class="hands" id="pianoLine"></p>
       <div class="transport">
         <button type="button" class="btn primary" id="pianoBlock">齐奏</button>
@@ -44,12 +49,12 @@
         <button type="button" class="btn" id="pianoDown">琶音下行</button>
       </div>
       <div class="transport" id="compare"></div>
-      <p class="hint">副属要去它自己的临时主和弦：D7 去 G，A7 去 Dm，E7 去 Am。不去，就变成别的颜色。</p>
+      <p class="hint">副属要去它自己的临时主和弦：D7 去 G，E7 去 Am，A7 去 Dm，C7 去 F。不去，就变成别的颜色。</p>
       <div class="piano-scroll"><div class="piano" id="piano" role="group" aria-label="钢琴键盘"></div></div>
     </section>
     <section aria-labelledby="guitarHeading">
       <div class="section-h"><span>02</span><h2 id="guitarHeading">吉他</h2></div>
-      <p class="prose">把位是普通的属七，根音不在主音上。C 调里，V/V 的根音是 D，V/ii 是 A，V/vi 是 E。</p>
+      <p class="prose">把位是普通的属七。C 调里 V/V 的根音是 D，V/ii 是 A，V/vi 是 E，V/IV 是 C。</p>
       <p class="legend">指板是演奏视角：低头看琴时，低音弦在下、靠近你，高音弦在上。圆点相对的是这颗属七自己的根音：R、3、5、b7。不要把它们读成主调的音级。 闷住的弦不标音级。圆点不是手指序号。转调之后音级不变。</p>
       <h3 class="group-title">全指板位置</h3>
       <div id="neckOverview"></div>
@@ -71,7 +76,7 @@
     </section>
     <section aria-labelledby="dailyHeading">
       <div class="section-h"><span>04</span><h2 id="dailyHeading">今天练</h2></div>
-      <p class="prose">在 C 调弹 D7 到 G，A7 到 Dm，E7 到 Am。每对只听有没有被拉过去。</p>
+      <p class="prose">在 C 调弹 D7 到 G，E7 到 Am，A7 到 Dm，C7 到 F。每对只听有没有被拉过去。</p>
     </section>
     <section aria-labelledby="useHeading">
       <div class="section-h"><span>05</span><h2 id="useHeading">用到歌里</h2></div>
@@ -149,6 +154,8 @@
     </section>
     <footer>
       <p><a class="site-back" href="../../index.html">回到目录</a>
+        · <a class="site-back" href="../../map/index.html">C 调实用地图</a>
+        · <a class="site-back" href="../../swap/index.html">常用进行的替换</a>
         · <a class="site-back" href="../slash/index.html">上一课：斜杠 / 低音</a>
         · <a class="site-back" href="../dim/index.html">下一课：经过减</a></p>
       <p>声音在这台设备上合成。不需要网络，也不需要采样。点一下才会出声。</p>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>常用进行的替换 · 色彩百科</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23efe6d6' width='32' height='32' rx='6'/%3E%3Ccircle cx='10' cy='18' r='3.2' fill='%239c4a28'/%3E%3Ccircle cx='16' cy='12' r='3.2' fill='%23e8c27a'/%3E%3Ccircle cx='22' cy='18' r='3.2' fill='%23241c16'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="home board">
+  <div class="page">
+    <nav class="site-nav" aria-label="站点">
+      <a class="brand" href="../index.html">色彩百科</a>
+      <span class="nav-note">常用进行的替换</span>
+    </nav>
+
+    <header class="hero">
+      <p class="eyebrow">重写熟悉的圈</p>
+      <h1>常用进行的替换</h1>
+      <p class="lede">看一格，就知道这一格的三和弦能换成什么。同级换色彩、功能替代、加在到达之前，三组分开。点一颗，整圈马上重播。</p>
+      <p class="lede quiet">一次改一格最清楚。流行色彩是铜色，更冲的爵士张力是青色。没有歌词，也不是整首歌。</p>
+    </header>
+
+    <div class="frame-tabs" id="frames" role="tablist" aria-label="哪一条进行"></div>
+    <p id="frameNote" class="section-lead"></p>
+    <div id="variantRow"></div>
+
+    <p class="legend-row">
+      <span><i class="swatch pop"></i>同级换色彩</span>
+      <span><i class="swatch jazz"></i>更冲的爵士张力</span>
+      <span><i class="swatch func"></i>功能替代</span>
+      <span><i class="swatch before"></i>加在到达之前</span>
+    </p>
+
+    <div class="transport" style="margin-top:12px;">
+      <button type="button" class="text-btn primary" id="hear">听现在这一圈</button>
+      <button type="button" class="text-btn" id="reset">全部回到三和弦</button>
+    </div>
+    <p class="status" id="loopStatus" hidden></p>
+
+    <div class="slot-board" id="board" aria-live="polite"></div>
+
+    <footer>
+      <p><a class="site-back" href="../index.html">回到目录</a> · <a class="site-back" href="../map/index.html">C 调实用地图</a></p>
+      <p>点一下才会出声。声音在这台设备上合成。</p>
+    </footer>
+  </div>
+  <script src="../assets/sound.js"></script>
+  <script src="../assets/voice.js"></script>
+  <script src="../assets/loops.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

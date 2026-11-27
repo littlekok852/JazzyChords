@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>C 调实用地图 · 色彩百科</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%23efe6d6' width='32' height='32' rx='6'/%3E%3Ccircle cx='10' cy='18' r='3.2' fill='%239c4a28'/%3E%3Ccircle cx='16' cy='12' r='3.2' fill='%23e8c27a'/%3E%3Ccircle cx='22' cy='18' r='3.2' fill='%23241c16'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="home board">
+  <div class="page">
+    <nav class="site-nav" aria-label="站点">
+      <a class="brand" href="../index.html">色彩百科</a>
+      <span class="nav-note">C 调 · 实用地图</span>
+    </nav>
+
+    <header class="hero">
+      <p class="eyebrow">写歌时先看这一页</p>
+      <h1>C 调实用地图</h1>
+      <p class="lede">三圈都能直接拿去当主歌或副歌的骨架。没有歌词，也不是整首歌。流行色彩用铜色，更冲的爵士张力用青色，分开听。</p>
+      <p class="lede quiet">一次只改一格的做法在<a class="site-back" href="../swap/index.html">常用进行的替换</a>。那一页是单独的，不是埋在这张地图里。</p>
+    </header>
+
+    <p class="status" id="loopStatus" hidden></p>
+    <label class="slider" style="display:block;max-width:280px;margin-top:12px;">
+      <span class="slider-top" style="display:flex;justify-content:space-between;"><span>音量</span><span id="volumeLabel">82%</span></span>
+      <input id="volume" type="range" min="0" max="100" value="82" aria-label="音量">
+    </label>
+
+    <section aria-labelledby="verseHeading">
+      <div class="section-h"><span>主歌</span><h2 id="verseHeading">C 调主歌</h2></div>
+      <p class="section-lead">Cadd9、G/B、Am7、Fmaj7，然后 ii 去挂留的 V，回到 I 的两种颜色。低音从 C 走到 B，挂留再落到 G。</p>
+      <div class="loop-row" aria-label="主歌和弦">
+        <div class="cell"><b>Cadd9</b><span>I</span></div>
+        <div class="cell"><b>G/B</b><span>V/三音</span></div>
+        <div class="cell"><b>Am7</b><span>vi</span></div>
+        <div class="cell"><b>Fmaj7</b><span>IV</span></div>
+        <div class="cell"><b>Dm7</b><span>ii</span></div>
+        <div class="cell"><b>Gsus4</b><span>V</span></div>
+        <div class="cell"><b>G</b><span>落到 V</span></div>
+        <div class="cell"><b>Cadd9</b><span>I</span></div>
+        <div class="cell"><b>C6</b><span>I</span></div>
+      </div>
+      <div class="transport" style="margin-top:12px;">
+        <button type="button" class="text-btn primary" data-chords="Cadd9 G/B Am7 Fmaj7 Dm7 Gsus4 G Cadd9 C6">听主歌</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="chorusHeading">
+      <div class="section-h"><span>副歌</span><h2 id="chorusHeading">C 调副歌</h2></div>
+      <p class="section-lead">IV 落到借来的 iv，再回主和弦。低音用三音走一步。G13 是这一圈里更冲的那一格，其余仍是流行色彩。</p>
+      <div class="loop-row">
+        <div class="cell"><b>Fmaj7</b><span>IV</span></div>
+        <div class="cell"><b>Fm</b><span>iv</span></div>
+        <div class="cell"><b>C</b><span>I</span></div>
+        <div class="cell"><b>C/E</b><span>I/三音</span></div>
+        <div class="cell"><b>Dm7</b><span>ii</span></div>
+        <div class="cell jazz"><b>G13</b><span>更冲的 V</span></div>
+        <div class="cell"><b>Cmaj7</b><span>I</span></div>
+        <div class="cell"><b>C6</b><span>I</span></div>
+      </div>
+      <div class="transport" style="margin-top:12px;">
+        <button type="button" class="text-btn primary" data-chords="Fmaj7 Fm C C/E Dm7 G13 Cmaj7 C6">听副歌</button>
+        <button type="button" class="text-btn" data-chords="Fmaj7 Fm C C/E Dm7 G Cmaj7 C6">G13 换成 G</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="minorHeading">
+      <div class="section-h"><span>a 小调</span><h2 id="minorHeading">a 小调短循环</h2></div>
+      <p class="section-lead">和 C 调平行的一圈。E7 是小调的属七。E7b9 更紧，可以不用。</p>
+      <div class="loop-row">
+        <div class="cell"><b>Am7</b><span>i</span></div>
+        <div class="cell"><b>Dm7</b><span>iv</span></div>
+        <div class="cell"><b>Fmaj7</b><span>VI</span></div>
+        <div class="cell"><b>E7</b><span>V</span></div>
+        <div class="cell"><b>F</b><span>VI</span></div>
+        <div class="cell"><b>Fm</b><span>同主音</span></div>
+        <div class="cell jazz"><b>E7b9</b><span>更冲的 V</span></div>
+        <div class="cell"><b>Am7</b><span>i</span></div>
+      </div>
+      <div class="transport" style="margin-top:12px;">
+        <button type="button" class="text-btn primary" data-chords="Am7 Dm7 Fmaj7 E7 F Fm E7b9 Am7">听 a 小调</button>
+        <button type="button" class="text-btn" data-chords="Am7 Dm7 Fmaj7 E7 F Fm E7 Am7">E7b9 换成 E7</button>
+      </div>
+    </section>
+
+    <section aria-labelledby="plainHeading">
+      <div class="section-h"><span>对照</span><h2 id="plainHeading">三和弦和加色</h2></div>
+      <p class="section-lead">先听干的，再听只换了颜色的。第二次对照里，A7 是加在 Dm 前面的副属，G13 是更冲的 V。</p>
+      <article class="song pop">
+        <h3>1645 的颜色</h3>
+        <p class="beat"><span class="label">干的</span>C · G · Am · F</p>
+        <p class="beat"><span class="label">加色</span>Cadd9 · G/B · Am7 · Fmaj7</p>
+        <div class="transport">
+          <button type="button" class="text-btn" data-chords="C G Am F">听三和弦</button>
+          <button type="button" class="text-btn" data-chords="Cadd9 G/B Am7 Fmaj7">听加色</button>
+        </div>
+      </article>
+      <article class="song pop">
+        <h3>去 ii 的那一格</h3>
+        <p class="beat"><span class="label">干的</span>C · Am · Dm · G</p>
+        <p class="beat"><span class="label">加色</span>C · A7 · Dm7 · G13</p>
+        <div class="transport">
+          <button type="button" class="text-btn" data-chords="C Am Dm G">听三和弦</button>
+          <button type="button" class="text-btn" data-chords="C A7 Dm7 G13">听加了副属和属十三</button>
+        </div>
+      </article>
+    </section>
+
+    <section aria-labelledby="oneHeading">
+      <div class="section-h"><span>练习</span><h2 id="oneHeading">一次只改一格</h2></div>
+      <p class="section-lead">熟悉的圈先留着三和弦。只换一格，听完再决定要不要留。1645、卡农、4536251 的替换表在单独一页。</p>
+      <p><a class="site-back" href="../swap/index.html">打开常用进行的替换</a></p>
+    </section>
+
+    <footer>
+      <p><a class="site-back" href="../index.html">回到目录</a> · <a class="site-back" href="../swap/index.html">常用进行的替换</a></p>
+      <p>点一下才会出声。声音在这台设备上合成。</p>
+    </footer>
+  </div>
+  <script src="../assets/sound.js"></script>
+  <script src="../assets/voice.js"></script>
+  <script src="../assets/loops.js"></script>
+</body>
+</html>
