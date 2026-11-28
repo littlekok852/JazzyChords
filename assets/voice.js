@@ -296,6 +296,20 @@
     return { beat: beat, total: total * repeats, bpm: BPM };
   }
 
+  function playHits(eng, events, options) {
+    var start = eng.ctx.currentTime + (options && options.leadIn != null ? options.leadIn : 0.05);
+    var owned = [];
+    var index, event, src;
+    stopProgression(eng);
+    if (running) running.set(eng, owned);
+    for (index = 0; index < events.length; index++) {
+      event = events[index];
+      src = eng.playPiano(event.midi, start + event.at, event.gain || 0.62, event.seconds);
+      if (src) owned.push(src);
+    }
+    return { count: events.length };
+  }
+
   function playProgression(eng, symbols, options) {
     var plan = progressionEvents(symbols);
     var start = eng.ctx.currentTime + (options && options.leadIn != null ? options.leadIn : 0.05);
@@ -322,6 +336,7 @@
     displaySymbols: displaySymbols,
     statusLine: statusLine,
     playProgression: playProgression,
-    playMelody: playMelody
+    playMelody: playMelody,
+    playHits: playHits
   };
 });
