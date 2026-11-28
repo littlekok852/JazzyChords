@@ -25,6 +25,8 @@
     maj: [0, 7, 16],
     add9: [0, 7, 14, 16],
     madd9: [0, 3, 7, 14],
+    /* Am(add9): 9th sits beside the minor 3rd, e.g. A3 B3 C4 E4. */
+    "m(add9)": [0, 2, 3, 7],
     "6": [0, 7, 9, 16],
     "69": [0, 7, 9, 14, 16],
     m: [0, 3, 7],
@@ -64,6 +66,9 @@
     } else if (rest.indexOf("madd9") === 0) {
       quality = "madd9";
       rest = rest.slice(5);
+    } else if (rest.indexOf("m(add9)") === 0) {
+      quality = "m(add9)";
+      rest = rest.slice(7);
     } else if (rest.indexOf("add9") === 0) {
       quality = "add9";
       rest = rest.slice(4);
